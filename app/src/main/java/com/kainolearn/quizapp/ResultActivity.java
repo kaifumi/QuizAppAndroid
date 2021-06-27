@@ -24,6 +24,7 @@ public class ResultActivity extends AppCompatActivity {
         int totalScore = prefs.getInt("totalScore", 0);
 
         // トータルスコアに今回のスコアを加算
+        totalScore = 0;
         totalScore += score;
 
         // TextViewに表示する
