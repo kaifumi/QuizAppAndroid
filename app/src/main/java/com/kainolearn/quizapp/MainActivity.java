@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,5 +62,50 @@ public class MainActivity extends AppCompatActivity {
             // tmpArrayをquizArrayに追加
             quizArray.add(tmpArray);
         }
+        showNextQuiz();
     }
+
+    public void showNextQuiz() {
+        // クイズのカウントラベルを更新
+        countLabel.setText(getString(R.string.count_label, quizCount));
+
+        // ランダムな数字を取得
+        Random random = new Random();
+        int randomNum = random.nextInt(quizArray.size());
+
+        // randomNumを使ってquizArrayからクイズを一つ取り出す
+        ArrayList<String> quiz = quizArray.get(randomNum);
+
+        // 問題文（都道府県）を表示
+        questionLabel.setText(quiz.get(0));
+
+        // 正解をrightAnswerにセット
+        rightAnswer = quiz.get(1);
+
+        // quiz配列から問題文を削除
+        quiz.remove(0);
+
+        // 正解と選択肢3つをシャッフル
+        Collections.shuffle(quiz);
+
+        // 回答ボタンに正解と選択肢3つを表示
+        answerBtn1.setText(quiz.get(0));
+        answerBtn2.setText(quiz.get(1));
+        answerBtn3.setText(quiz.get(2));
+        answerBtn4.setText(quiz.get(3));
+
+        // このクイズをauizArrayから削除
+        quizArray.remove(randomNum);
+
+
+    }
+
 }
+
+
+
+
+
+
+
+
