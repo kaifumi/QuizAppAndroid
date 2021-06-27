@@ -1,7 +1,11 @@
 package com.kainolearn.quizapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private String rightAnswer;
     private int rightAnswerCount;
     private int quizCount = 1;
+    static final private int QUIZ_COUNT = 5;
 
     ArrayList<ArrayList<String>> quizArray = new ArrayList<>();
 
@@ -96,10 +101,41 @@ public class MainActivity extends AppCompatActivity {
 
         // このクイズをauizArrayから削除
         quizArray.remove(randomNum);
-
-
     }
 
+    public void checkAnswer(View view) {
+
+        // どの回答ボタンが押されたか
+        Button answerBtn = findViewById(view.getId());
+        String btnText = answerBtn.getText().toString();
+
+        String alertTitle;
+        if (btnText.equals(rightAnswer)) {
+            alertTitle = "正解！";
+            rightAnswerCount++;
+        } else {
+            alertTitle = "不正解...";
+        }
+
+        // ダイアログを作成
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(alertTitle);
+        builder.setMessage("答え：" + rightAnswer);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // OKボタンが押された時の処理
+                if (quizCount == QUIZ_COUNT) {
+                    // 結果画面を表示
+                } else {
+                    quizCount++;
+                    showNextQuiz();
+                }
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
+    }
 }
 
 
